@@ -1,48 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import io from 'socket.io-client';
+import React from 'react';
+import { Router, Route, Switch } from 'react-router-dom';
 
-let endPoint = 'http://localhost:5000';
-let socket = io.connect(`${endPoint}`);
+import history from './history';
+import Homepage from '/components/Homepage';
+import Room from '/components/Room';
+import ProtectedRoute from '/components/routes/ProtectedRoute';
 
 const App = () => {
-  const [messages, setMessages] = useState(['Hello and Welcome']),
-    [message, setMessage] = useState('');
-
-  useEffect(() => {
-    getMessages();
-  }, [messages.length]);
-
-  const getMessages = () => {
-    socket.on('message', msg => {
-      setMessages([...messages, msg]);
-    });
-  };
-
-  const handleClick = () => {
-    if (message !== '') {
-      socket.emit('message', message);
-      setMessage('');
-    } else {
-      alert('Please add a message');
-    }
-  };
-
   return (
-    <div>
-      {messages.length > 0 &&
-        messages.map((msg) => (
-          <div>
-            <p>{msg}</p>
-          </div>
-        ))
-      }
-      <input
-        value={message}
-        name="message"
-        onChange={e => setMessage(e.target.value)}
-      />
-      <button onClick={handleClick}>Send Message</button>
-    </div>
+    <>
+      <Router history={history}>
+        <Switch>
+          <Route path='/' exact={true} component={Homepage} />
+          <ProtectedRoute path='/:username' exact={true} component={Room} />
+        </Switch>
+      </Router>
+    </>
   );
 };
 
