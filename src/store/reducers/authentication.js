@@ -1,4 +1,4 @@
-import { USER_LOGIN } from './action-types';
+import { USER_LOGIN } from '../action-types';
 
 export default function (state = {}, action) {
   switch (action.type) {
@@ -7,7 +7,7 @@ export default function (state = {}, action) {
         ...state,
         user: action.type
       };
-    };
-    default: return state;
+    }
+    default: return state
   }
 };
