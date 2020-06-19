@@ -1,12 +1,32 @@
-import React from 'react';
-import io from 'socket.io-client';
-import api from '../config';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import socket from '../websocket';
 
-const socket = io.connect(`${api.url}`);
+const Room = ({ room, history }) => {
+  const currentUser = useSelector(state => state.authorization.user);
 
-const Room = () => {
+  const handleLeaveRoom = () => {
+    socket.emit('leave', {
+      'username': currentUser.username,
+      room
+    });
+    history.push('/');
+  };
+
+  useEffect(() => {
+    if (currentUser) {
+      socket.emit('join', {
+        'username': currentUser.username,
+        room
+      })
+    }
+  }, [currentUser, room]);
+
   return (
-    <h1>Room</h1>
+    <>
+      <h1>Room</h1>
+      <button onClick={handleLeaveRoom}>Leave Room</button>
+    </>
   )
 };
 
