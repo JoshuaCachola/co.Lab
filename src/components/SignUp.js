@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import { handleUserSignUp } from '../store/actions';
 
-const SignUp = ({history}) => {
+const SignUp = ({ history }) => {
   const dispatch = useDispatch();
   const [username, setUsername] = useState(''),
     [firstName, setFirstName] = useState(''),
@@ -32,7 +32,7 @@ const SignUp = ({history}) => {
     <>
       <form onSubmit={handleSignUp}>
         <label>Username</label>
-        <input 
+        <input
           type='text'
           onChange={e => setUsername(e.target.value)}
           required

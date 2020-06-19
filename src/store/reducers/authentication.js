@@ -5,7 +5,7 @@ export default function (state = {}, action) {
     case USER_LOGIN: {
       return {
         ...state,
-        user: action.type
+        user: action.user
       };
     }
     default: return state

@@ -1,30 +1,32 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import socket from '../websocket';
 
-const Room = ({ room, history }) => {
-  const currentUser = useSelector(state => state.authorization.user);
-
+const Room = ({ history }) => {
+  const currentUser = useSelector(state => state.authentication.user);
+  const [message, setMessage] = useState({});
   const handleLeaveRoom = () => {
+    console.log(currentUser);
     socket.emit('leave', {
-      'username': currentUser.username,
-      room
+      'username': 'cacholaj',
+      'room': 'cacholaj'
     });
     history.push('/');
   };
 
   useEffect(() => {
     if (currentUser) {
+      console.log(currentUser);
       socket.emit('join', {
-        'username': currentUser.username,
-        room
+        'username': 'cacholaj',
+        'room': 'cacholaj'
       })
     }
-  }, [currentUser, room]);
+  }, [currentUser]);
 
   return (
     <>
-      <h1>Room</h1>
+      <h1>{message.msg}</h1>
       <button onClick={handleLeaveRoom}>Leave Room</button>
     </>
   )
